@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR/VR Scene</title>
+  <!-- Підключення A-Frame -->
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  <!-- Додатковий плагін A-Frame Extras -->
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+</head>
+<body>
+  <a-scene>
+    <!-- Площина -->
+    <a-plane position="0 0 -5" rotation="-90 0 0" width="10" height="10" color="#7BC8A4"></a-plane>
+    
+    <!-- Геометричні примітиви -->
+    <a-box position="-2 1 -5" color="#4CC3D9" animation="property: position; to: -2 3 -5; dur: 2000; loop: true"
+           animation__color="property: color; to: #FF6347; dur: 2000; loop: true"></a-box>
+    <a-sphere position="0 1 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+    <a-cylinder position="2 1 -5" radius="0.5" height="2" color="#FFC65D"></a-cylinder>
+    
+    <!-- Модель GLTF -->
+    <a-gltf-model id="soldier" src="./skt_t1_jhin.glb" position="0 0 0" rotation="0 0 0" 
+                  animation-mixer="clip: DanceLoop;"></a-gltf-model>
+    
+    <!-- Джерело світла -->
+    <a-light type="ambient" color="#ffffff" intensity="0.5"></a-light>
+    <a-light type="directional" position="1 1 0" intensity="0.8"></a-light>
+    
+    <!-- Об'єкт Three.js -->
+    <a-entity id="threejs-object" position="0 2 -3" rotation="-90 0 0"></a-entity>
+  </a-scene>
+
+  <script>
+    // Додавання об'єкта Three.js
+    const threejsEntity = document.querySelector('#threejs-object');
+    const geometry = new THREE.TorusGeometry(0.3, 0.1, 16, 100);
+    const material = new THREE.MeshStandardMaterial({ color: '#0077ff' });
+    const torus = new THREE.Mesh(geometry, material);
+    threejsEntity.setObject3D('mesh', torus);
+
+    // Реєстрація події завантаження GLTF-моделі
+    document.querySelector('#soldier').addEventListener('model-loaded', function () {
+      console.log('GLTF model loaded and ready!');
+    });
+  </script>
+</body>
+</html>
